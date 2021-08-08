@@ -13,6 +13,8 @@ import { withAuth0 } from '@auth0/auth0-react';
 import BestBooks from './BestBooks';
 import Login from './Login';
 import Profile from './Profile';
+import LogInButton from './LogInButton';
+import LogoutButton from './LogOutButton';
 // import LogoutButton from './LogoutButton';
 
 class App extends React.Component {
@@ -37,12 +39,23 @@ class App extends React.Component {
               <Route exact path="/Profile">
                 {/* TODO: add a route with a path of '/profile' that renders a `Profile` component */}
                 {
-                  isAuthenticated ?  <Profile /> : <Login />
+                  // isAuthenticated ?  <Profile /> : <Login />
+                  <Profile />
                   
                 }
                 {/* {isAuthenticated ?  <LogoutButton /> : <Login />} */}
-              </Route > 
+              </Route >
+
+              <Route exact path="/Login">
+                <LogInButton />
+              </Route>
+              
+              <Route exact path="/Logout">
+                <LogoutButton />
+              </Route>
+            
             </Switch>
+            {/* { !isAuthenticated ? <Login /> : <BestBooks />} */}
             <Footer />
           {/* </IsLoadingAndError> */}
         </Router>
