@@ -24,11 +24,8 @@ class MyFavoriteBooks extends React.Component {
         this.setState({
           data: data,
         });
-        
     })
-    .catch(err =>{
-
-    });
+    .catch(err =>{});
   }
 
   render() {
