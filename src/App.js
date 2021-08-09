@@ -44,16 +44,7 @@ class App extends React.Component {
                   
                 }
                 {/* {isAuthenticated ?  <LogoutButton /> : <Login />} */}
-              </Route >
-
-              <Route exact path="/Login">
-                <LogInButton />
-              </Route>
-              
-              <Route exact path="/Logout">
-                <LogoutButton />
-              </Route>
-            
+              </Route > 
             </Switch>
             {/* { !isAuthenticated ? <Login /> : <BestBooks />} */}
             <Footer />
