@@ -37,13 +37,13 @@ class MyFavoriteBooks extends React.Component {
       });
   }
 
-  addBookHandler = () =>{
+  addBookHandler =  () =>{
     this.setState({
       toShow: true,
     });
   };
 
-  addBookToBooks = (book) =>{
+  addBookToBooks =  (book) =>{
     this.setState({
       books: this.state.books.push(book),
     });
@@ -54,6 +54,29 @@ class MyFavoriteBooks extends React.Component {
     this.setState({
       toShow: false,
     });
+  }
+
+  deleteBook =(id)=>{
+    const {user} = this.props.auth0;
+    const data={
+      userEmail : user.email
+    };
+
+    axios
+    .delete(`${process.env.REACT_APP_SERVER_URL}/books/${id}`,{params: data})
+    .then( result =>{
+      this.setState({
+        books : result.data
+      });}
+    )
+
+    .catch( (err) =>
+    {
+      console.log(err);
+
+    });
+    
+
   }
 
   render() {
@@ -67,7 +90,7 @@ class MyFavoriteBooks extends React.Component {
                               />}
                               {
                                 <Container className="d-flex flex-wrap align-items-baseline justify-content-center">
-                                  {this.state.books.map(item => <Book title={item.title} description={item.description} status={item.status}/>)}
+                                  {this.state.books.map((item ,index) => <Book deleteBook={this.deleteBook} index={index} title={item.title} description={item.description} status={item.status}/>)}
                                 </Container>
                               }
       
