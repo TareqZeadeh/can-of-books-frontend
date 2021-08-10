@@ -1,6 +1,5 @@
 import React from 'react';
 import Header from './Header';
-// import IsLoadingAndError from './IsLoadingAndError';
 import Footer from './Footer';
 import {
   BrowserRouter as Router,
@@ -8,20 +7,15 @@ import {
   Route
 } from "react-router-dom";
 
-// import { useAuth0 } from '@auth0/auth0-react';
 import { withAuth0 } from '@auth0/auth0-react';
 import BestBooks from './BestBooks';
 import Login from './Login';
 import Profile from './Profile';
-import LogInButton from './LogInButton';
-import LogoutButton from './LogOutButton';
 // import LogoutButton from './LogoutButton';
 
 class App extends React.Component {
 
   render() {
-    console.log('app', this.props);
-    console.log(this.props.auth0);
     const {isAuthenticated} =this.props.auth0;
     return(
       <>
