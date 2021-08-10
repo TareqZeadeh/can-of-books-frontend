@@ -14,8 +14,8 @@ class Header extends React.Component {
     return(
       <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Navbar.Brand>My Favorite Books</Navbar.Brand>
-        <Link to="/" className="mr-3">Home</Link>
-        {isAuthenticated && <Link to="/profile" className="mr-3">Profile</Link>}
+        <Link to="/" className="mx-2">Home</Link>
+        {isAuthenticated && <Link to="/profile" className="mx-2">Profile</Link>}
         {/* TODO: if the user is logged in, render the `LogoutButton` - if the user is logged out, render the `LoginButton` */}
         {!isAuthenticated ? <LogInButton /> : <LogOutButton />}
 

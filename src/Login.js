@@ -1,16 +1,14 @@
 import React from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Login.css';
-import { useAuth0 } from "@auth0/auth0-react";
+import { withAuth0 } from '@auth0/auth0-react';
 import { Card } from 'react-bootstrap';
 import LogInButton from './LogInButton';
 
 
-function Login() {
-  const {
-    isAuthenticated,
-  } = useAuth0();
-
+class Login extends React.Component {
+render(){
+  const {isAuthenticated} = this.props.auth0;
   return !isAuthenticated && (
     <Card style={{ width: '18rem' }}>
     <Card.Body>
@@ -25,4 +23,6 @@ function Login() {
   );
 }
 
-export default Login;
+}
+
+export default withAuth0(Login);
