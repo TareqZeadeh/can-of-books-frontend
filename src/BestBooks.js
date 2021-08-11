@@ -62,6 +62,7 @@ class MyFavoriteBooks extends React.Component {
       userEmail : user.email
     };
 
+    console.log('id: ' + id);
     axios
     .delete(`${process.env.REACT_APP_SERVER_URL}/books/${id}`,{params: data})
     .then( result =>{
