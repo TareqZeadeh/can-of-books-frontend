@@ -3,9 +3,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './BestBooks.css';
 import axios from 'axios';
 import { withAuth0 } from '@auth0/auth0-react';
-import { Button, Container} from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import BookFormModal from './BookFormModal';
 import Book from './Book';
+import UpdateForm from './UpdateForm';
 // import Carousel from 'react-bootstrap/Carousel'
 
 class MyFavoriteBooks extends React.Component {
@@ -15,6 +16,12 @@ class MyFavoriteBooks extends React.Component {
       books: [],
       errMsg: '',
       toShow: false,
+      toShowUpdate: false,
+      title: '',
+      description: '',
+      status: '',
+      index: -1,
+      user: {}
     };
   }
 
@@ -37,65 +44,99 @@ class MyFavoriteBooks extends React.Component {
       });
   }
 
-  addBookHandler =  () =>{
+  addBookHandler = () => {
     this.setState({
       toShow: true,
     });
   };
 
-  addBookToBooks =  (book) =>{
+  addBookToBooks = (book) => {
+    const newBookArr=this.state.books;
+    newBookArr.push(book);
     this.setState({
-      books: this.state.books.push(book),
+      books: newBookArr,
+
     });
+    console.log(newBookArr);
   };
 
 
-  closeModel = () =>{
+  closeModel = () => {
     this.setState({
       toShow: false,
+      toShowUpdate: false
     });
   }
 
-  deleteBook =(id)=>{
-    const {user} = this.props.auth0;
-    const data={
-      userEmail : user.email
+  deleteBook = (id) => {
+    const { user } = this.props.auth0;
+    const data = {
+      userEmail: user.email
     };
 
     console.log('id: ' + id);
     axios
-    .delete(`${process.env.REACT_APP_SERVER_URL}/books/${id}`,{params: data})
-    .then( result =>{
-      this.setState({
-        books : result.data
-      });}
-    )
+      .delete(`${process.env.REACT_APP_SERVER_URL}/books/${id}`, { params: data })
+      .then(result => {
+        this.setState({
+          books: result.data
+        });
+      }
+      )
 
-    .catch( (err) =>
-    {
-      console.log(err);
+      .catch((err) => {
+        console.log(err);
 
-    });
-    
+      });
+
 
   }
 
+  updateFormData = (idx) => {
+    console.log('in updateFormData')
+    this.setState({
+      toShowUpdate: true,
+      index: idx,
+      title: this.state.books[idx].title,
+      description: this.state.books[idx].description,
+      status: this.state.books[idx].status,
+      user: this.props.auth0.user
+      
+    });
+
+  }
+
+  updateBooks = (updatedBooks) => {
+
+    this.setState({
+      books: updatedBooks
+
+    })
+
+  }
+
+
+
   render() {
     return (
-    <>
-      <Button onClick={this.addBookHandler} style={{backgroundColor: '#c0392b', margin: '7rem'}}>Add Book</Button>
-      {this.state.toShow && <BookFormModal 
-                              toShow={this.state.toShow} 
-                              closeModel={this.closeModel}
-                              addBookToBooks={this.addBookToBooks}
-                              />}
-                              {
-                                <Container className="d-flex flex-wrap align-items-baseline justify-content-center">
-                                  {this.state.books.map((item ,index) => <Book deleteBook={this.deleteBook} index={index} title={item.title} description={item.description} status={item.status}/>)}
-                                </Container>
-                              }
-      
-    </>
+      <>
+        <Button onClick={this.addBookHandler} style={{ backgroundColor: '#c0392b', margin: '7rem' }}>Add Book</Button>
+        {this.state.toShow && <BookFormModal
+          toShow={this.state.toShow}
+          closeModel={this.closeModel}
+          addBookToBooks={this.addBookToBooks}
+        />}
+        {
+          this.state.toShowUpdate && <UpdateForm index={this.state.index} title={this.state.title} description={this.state.description} status={this.state.status} toShowUpdate={this.state.toShowUpdate} user={this.state.user}  updateBooks={this.updateBooks} closeModel={this.closeModel}/>
+
+        }
+        {
+          <Container className="d-flex flex-wrap align-items-baseline justify-content-center">
+            {this.state.books.map((item, index) => <Book deleteBook={this.deleteBook} index={index} title={item.title} description={item.description} status={item.status}  updateFormData={this.updateFormData}/>)}
+          </Container>
+        }
+
+      </>
     );
   }
 }
